@@ -10,10 +10,9 @@ import com.kavrin.paging3.data.remote.UnsplashApi
 import com.kavrin.paging3.model.UnsplashImage
 import com.kavrin.paging3.model.UnsplashRemoteKeys
 import com.kavrin.paging3.util.Constants.ITEMS_PER_PAGE
-import javax.inject.Inject
 
 @ExperimentalPagingApi
-class UnsplashRemoteMediator @Inject constructor(
+class UnsplashRemoteMediator(
 	private val unsplashApi: UnsplashApi,
 	private val unsplashDatabase: UnsplashDatabase,
 ) : RemoteMediator<Int, UnsplashImage>() {
@@ -72,8 +71,8 @@ class UnsplashRemoteMediator @Inject constructor(
 						nextPage = nextPage
 					)
 				}
-				unsplashImageDao.addImages(images = response)
 				unsplashRemoteKeysDao.addAllRemoteKeys(remoteKeys = keys)
+				unsplashImageDao.addImages(images = response)
 			}
 			MediatorResult.Success(endOfPaginationReached = endOfPaginatedReached)
 
