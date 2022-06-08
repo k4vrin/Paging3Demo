@@ -26,4 +26,36 @@ When implementing pagination, we want to be confident the following conditions a
 
 -   Triggering requests to fetch more data to supplement the data we've already fetched.
 
-We can achieve all this with a PagingSource. A PagingSource defines the source of data by specifying how to retrieve data in incremental chunks. The PagingData object then pulls data from the PagingSource in response to loading hints that are generated as the user scrolls in a RecyclerView.
+We can achieve all this with a PagingSource. A PagingSource defines the source of data by specifying how to retrieve data in incremental chunks.
+The PagingData object then pulls data from the PagingSource in response to loading hints that are generated as the user scrolls in a RecyclerView.
+
+_[See More](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)_
+
+### Define a data source
+
+The first step is to define a _[`PagingSource`](https://developer.android.com/reference/kotlin/androidx/paging/PagingSource)_ implementation to identify the data source.
+The PagingSource API class includes the _[`load()`](https://developer.android.com/reference/kotlin/androidx/paging/PagingSource#load)_ method, which you must override to indicate how to retrieve paged data from the corresponding data source.
+
+Use the PagingSource class directly to use Kotlin coroutines for async loading.
+
+### Select key and value types
+
+`PagingSource<Key, Value>` has two type parameters: `Key` and `Value`. The key defines the identifier used to load the data, and the value is the type of the data itself.
+For example, if you load pages of `User` objects from the network by passing `Int` page numbers to `Retrofit`, you would select `Int` as the `Key` type and `User` as the `Value` type.
+
+### Define the PagingSource
+
+_[Define the PagingSource](https://developer.android.com/topic/libraries/architecture/paging/v3-paged-data#pagingsource)_
+
+## Remote Mediator
+
+The main role of RemoteMediator is to load more data from the network when either the Pager runs out of data or the existing data is invalidated. It includes a load() method that you must override to define the loading behavior.
+
+A typical RemoteMediator implementation includes the following parameters:
+
+- query: A query string defining which data to retrieve from the backend service.
+- database: The Room database that serves as a local cache.
+- networkService: An API instance for the backend service.
+
+Create a RemoteMediator<Key, Value> implementation.
+The Key type and the Value type should be the same as they would be if you were defining a PagingSource against the same network data source.

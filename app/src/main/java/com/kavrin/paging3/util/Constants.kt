@@ -7,4 +7,6 @@ object Constants {
 	const val UNSPLASH_REMOTE_KEYS_TABLE = "unsplash_remote_keys_table"
 
 	const val BASE_URL = "https://api.unsplash.com"
+
+	const val ITEMS_PER_PAGE = 10
 }
